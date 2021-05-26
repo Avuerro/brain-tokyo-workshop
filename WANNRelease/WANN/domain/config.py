@@ -79,7 +79,13 @@ label = [item for sublist in L for item in sublist]
 mnist256 = mnist256._replace(in_out_labels=label)
 games['mnist256'] = mnist256
 
-
+fashionmnist = classify._replace(\
+  env_name="Classify_fashionmnist", input_size=256, i_act=np.full(256,1))
+L = [list(range(1, fashionmnist.input_size)),\
+     list(range(0, fashionmnist.output_size))]
+label = [item for sublist in L for item in sublist]
+fashionmnist = fashionmnist._replace(in_out_labels=label)
+games['fashionmnist'] = fashionmnist
 # -- Cart-pole Swingup --------------------------------------------------- -- #
 
 # > Slower reaction speed
