@@ -27,7 +27,7 @@ class ClassifyEnv(gym.Env):
         self.t = 0          # Current batch number
         # Number of batches if you want to use them (we didn't)
         self.t_limit = 0
-        self.batch = 1000  # Number of images per batch
+        self.batch = 200#1000  # Number of images per batch
         self.seed()
         self.viewer = None
 
@@ -66,7 +66,6 @@ class ClassifyEnv(gym.Env):
         '''
         y = self.target[self.currIndx]
         m = y.shape[0]
-
         log_likelihood = -np.log(action[range(m), y])
         loss = np.sum(log_likelihood) / m
         reward = -loss
@@ -108,10 +107,7 @@ def mnist_256():
     [samples x pixels]  ([N X 256])
     '''
     import mnist
-    print('mnisting')
     z = (mnist.train_images()/255)
-    print('---------------------')
-    print(z.shape)
     z = preprocess(z, (16, 16))
 
     z = z.reshape(-1, (256))
@@ -135,7 +131,6 @@ def fashion_mnist():
 
     images, labels = load_fashion_mnist()
     images = (images/255)
-    print(images.shape)
     images = preprocess(images, (16, 16))
     images = images.reshape(-1, (256))
     return images, labels
