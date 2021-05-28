@@ -55,7 +55,7 @@ classify = Game(env_name='Classify_digits',
   time_factor=0,
   layers=[128,9],
   i_act=np.full(64,1),
-  h_act=[1,3,4,5,6,7,8,9,10], # No step function
+  h_act=[1,2,3,4,5,6,7,8,9,10], # No step function, CHB added step
   o_act=np.full(10,1),
   weightCap = 2.0,
   noise_bias=0.0,
@@ -79,6 +79,7 @@ label = [item for sublist in L for item in sublist]
 mnist256 = mnist256._replace(in_out_labels=label)
 games['mnist256'] = mnist256
 
+# > Fashion MNIST data set
 fashionmnist = classify._replace(\
   env_name="Classify_fashionmnist", input_size=256, i_act=np.full(256,1))
 L = [list(range(1, fashionmnist.input_size)),\
