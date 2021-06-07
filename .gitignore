@@ -1,1 +1,5 @@
 /WANNRelease/WANN/log/
+**/.ipynb_checkpoints
+**/__pycache__
+
+
