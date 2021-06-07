@@ -101,22 +101,15 @@ def digit_raw():
     return z, digits.target
 
 
-def mnist_256():
-    '''
-    Converts 28x28 mnist digits to [16x16]
-    [samples x pixels]  ([N X 256])
-    '''
-    import mnist
-    z = (mnist.train_images()/255)
-    z = preprocess(z, (16, 16))
-
-    z = z.reshape(-1, (256))
-    return z, mnist.train_labels()
 
 
-def load_fashion_mnist(data_dir='./../../fashion_mnist_data'):
-    labels_path = os.path.join(data_dir, 'train-labels.gz')
-    images_path = os.path.join(data_dir, 'train-images.gz')
+def load_data(data_dir='./../../fashion_mnist_data', train=True):
+    if train:
+        labels_path = os.path.join(data_dir, 'train-labels.gz')
+        images_path = os.path.join(data_dir, 'train-images.gz')
+    else:
+        labels_path = os.path.join(data_dir, 'test-labels.gz')
+        images_path = os.path.join(data_dir, 'test-images.gz')
 
     with gzip.open(labels_path, 'rb') as lbpath:
         labels = np.frombuffer(lbpath.read(), dtype=np.uint8, offset=8)
@@ -127,9 +120,21 @@ def load_fashion_mnist(data_dir='./../../fashion_mnist_data'):
 
     return images,labels
 
-def fashion_mnist():
+def mnist_256(train=True):
+    '''
+    Converts 28x28 mnist digits to [16x16]
+    [samples x pixels]  ([N X 256])
+    '''
+    images, labels = load_data(data_dir='./../../mnist_data', train=train)
+    z = (images/255)
+    z = preprocess(z, (16, 16))
 
-    images, labels = load_fashion_mnist()
+    z = z.reshape(-1, (256))
+    return z, labels
+
+def fashion_mnist(train=True):
+
+    images, labels = load_data(data_dir='./../../fashion_mnist_data', train=train)
     images = (images/255)
     images = preprocess(images, (16, 16))
     images = images.reshape(-1, (256))

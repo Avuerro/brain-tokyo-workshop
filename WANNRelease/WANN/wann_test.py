@@ -23,7 +23,7 @@ def main(argv):
   nRep    = args.nReps
   view    = args.view
   seed    = args.seed
-
+  
   # Load task and parameters
   hyp = loadHyp(pFileName=hyp_default)
   updateHyp(hyp,hyp_adjust)

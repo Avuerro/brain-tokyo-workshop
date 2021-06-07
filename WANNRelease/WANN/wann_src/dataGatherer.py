@@ -21,6 +21,8 @@ class DataGatherer():
     self.spec_fit = []
     self.field = ['x_scale','fit_med','fit_max','fit_top','fit_peak',\
                   'node_med','conn_med',\
+                  'fit_avg', 'node_avg', 'conn_avg',\
+                  'best_node_avg', 'best_conn_avg', 'least_nr_of_nodes','least_nr_of_conns',\
                   'elite','best']
                   
     self.objVals = np.array([])
@@ -66,6 +68,18 @@ class DataGatherer():
     self.fit_max  = np.append(self.fit_max,  self.elite[-1].fitness)
     self.fit_top  = np.append(self.fit_top,  self.best[-1].fitness)
     self.fit_peak = np.append(self.fit_peak, self.best[-1].fitMax)
+
+    self.fit_avg = np.append(self.fit_avg, np.mean(fitness))
+    self.node_avg = np.append(self.node_avg, np.mean(nodes))
+    self.conn_avg = np.append(self.conn_avg, np.mean(conns))
+
+    self.best_node_avg = np.append(self.best_node_avg, len(self.best[-1].node))
+    self.best_conn_avg = np.append(self.best_conn_avg, len(self.best[-1].conn))
+    
+    #individual with least nr of nodes
+    self.least_nr_of_nodes = np.append(self.least_nr_of_nodes, np.min(nodes))
+    self.least_nr_of_conns = np.append(self.least_nr_of_conns, np.min(conns))
+
     # ------------------------------------------------------------------------ 
 
 
@@ -89,11 +103,13 @@ class DataGatherer():
     # --- Generation fit/complexity stats ------------------------------------ 
     gStatLabel = ['x_scale',\
                   'fit_med','fit_max','fit_top','fit_peak',\
-                  'node_med','conn_med']
+                  'node_med','conn_med', 'fit_avg', 'node_avg', 'conn_avg',\
+                  'best_node_avg', 'best_conn_avg', 'least_nr_of_nodes','least_nr_of_conns']
     genStats = np.empty((len(self.x_scale),0))
     for i in range(len(gStatLabel)):
       #e.g.         self.    fit_max          [:,None]
       evalString = 'self.' + gStatLabel[i] + '[:,None]'
+      print(evalString)
       genStats = np.hstack((genStats, eval(evalString)))
     lsave(pref + '_stats.out', genStats)
     # ------------------------------------------------------------------------ 
